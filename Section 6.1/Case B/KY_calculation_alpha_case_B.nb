@@ -1,0 +1,867 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 10.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     34061,        858]
+NotebookOptionsPosition[     33328,        832]
+NotebookOutlinePosition[     33714,        849]
+CellTagsIndexPosition[     33671,        846]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{"Clear", "[", "\"\<Global`*\>\"", "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"n", ":", "iteration"}], ",", 
+    RowBox[{"x0", ":", 
+     RowBox[{"initial", " ", "state"}]}], ",", 
+    RowBox[{"c", ":", 
+     RowBox[{"step", " ", "parameter"}]}], ",", 
+    RowBox[{"mu", ":", 
+     RowBox[{"mean", " ", "of", " ", "target", " ", "distribution"}]}], ",", 
+    RowBox[{"sigma", ":", 
+     RowBox[{
+     "standard", " ", "deviation", " ", "of", " ", "target", " ", 
+      "distribution"}]}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"n", "=", "50000"}], ";", 
+   RowBox[{"x0", "=", "0"}], ";", 
+   RowBox[{"c", "=", "0.9"}], ";", 
+   RowBox[{"mu", "=", "0"}], ";", 
+   RowBox[{"sigma", "=", "1"}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.9376427021908937`*^9, 3.9376427023792157`*^9}, {
+   3.9391082785421104`*^9, 3.939108278736844*^9}, {3.9393634540616026`*^9, 
+   3.939363455029233*^9}, {3.9393658415947905`*^9, 3.939365841737487*^9}, {
+   3.939366665983034*^9, 3.939366666340928*^9}, {3.939367602528716*^9, 
+   3.9393676058790846`*^9}, {3.940469852018341*^9, 3.9404698529140234`*^9}, {
+   3.946872009794695*^9, 3.946872009950984*^9}, {3.947894555616703*^9, 
+   3.9478945836683073`*^9}, {3.951529407385452*^9, 3.9515294134325533`*^9}, {
+   3.9515311346709137`*^9, 3.9515311348460836`*^9}, {3.9515337652851934`*^9, 
+   3.951533765581438*^9}, {3.953792718704259*^9, 3.953792718895294*^9}, {
+   3.9538493941689463`*^9, 3.9538493977599163`*^9}, {3.953876054924006*^9, 
+   3.953876055085451*^9}, {3.9538782583385468`*^9, 3.9538782584643316`*^9}, {
+   3.9538799405370197`*^9, 3.9538799408400483`*^9}, {3.9539660378328395`*^9, 
+   3.9539660379957066`*^9}, {3.9540273137950096`*^9, 
+   3.9540273140279818`*^9}, {3.9542227497694683`*^9, 
+   3.9542227499850645`*^9}, {3.9542230668929048`*^9, 
+   3.9542230670842676`*^9}, {3.95447380870938*^9, 3.95447380889187*^9}, {
+   3.9548257844220343`*^9, 3.954825784585433*^9}, {3.9561154297890544`*^9, 
+   3.9561154301450787`*^9}, {3.956704372717491*^9, 3.9567043733423853`*^9}, {
+   3.9575925073100204`*^9, 3.9575925075070453`*^9}, {3.958099411589615*^9, 
+   3.9580994167953825`*^9}, {3.958100653111737*^9, 3.9581006565460367`*^9}, {
+   3.9594855123995457`*^9, 3.959485512600423*^9}, {3.9594863073943253`*^9, 
+   3.959486307626502*^9}, {3.9594876863351583`*^9, 3.959487686705477*^9}, {
+   3.9594884835238476`*^9, 3.959488500220598*^9}, {3.959491585790223*^9, 
+   3.9594915860011663`*^9}, {3.959494133198843*^9, 3.9594941366657925`*^9}, {
+   3.9639578762472315`*^9, 3.9639578793769608`*^9}, {3.9639696712419195`*^9, 
+   3.9639696722976704`*^9}, {3.9639822829746346`*^9, 3.963982283134*^9}, {
+   3.9639825855579667`*^9, 3.9639825865499153`*^9}, {3.9640489427710905`*^9, 
+   3.964048946068343*^9}, {3.9640508074159746`*^9, 3.9640508084478292`*^9}, {
+   3.9640521304773583`*^9, 3.9640521316650896`*^9}, {3.9640550021847925`*^9, 
+   3.964055002499608*^9}, {3.9640582180888343`*^9, 3.9640582186044564`*^9}, {
+   3.964148742052436*^9, 3.964148746490093*^9}, {3.9641489772134037`*^9, 
+   3.9641489867656837`*^9}, {3.9641491960357866`*^9, 3.964149196129639*^9}, {
+   3.9641494247798653`*^9, 3.9641494380906377`*^9}, 3.9641498371569853`*^9, {
+   3.9641500563367767`*^9, 3.964150056649381*^9}, {3.964150315690362*^9, 
+   3.9641503206144257`*^9}, {3.964150538321044*^9, 3.964150538540681*^9}, 
+   3.964150713879465*^9, {3.964150753488083*^9, 3.964150758912284*^9}, {
+   3.964150978586774*^9, 3.964150978774772*^9}, 3.964151536298355*^9, {
+   3.9645897652636194`*^9, 3.964589765971913*^9}, {3.964675425357498*^9, 
+   3.964675433921667*^9}, {3.9646770043864937`*^9, 3.9646770047302437`*^9}, {
+   3.9646782985538497`*^9, 3.9646782987726455`*^9}, {3.9646797123097825`*^9, 
+   3.9646797125802145`*^9}, {3.964824179608142*^9, 3.964824179826891*^9}, {
+   3.9649985336320734`*^9, 3.964998533898711*^9}, 3.9650028893734317`*^9, {
+   3.9650029482862034`*^9, 3.965002953130343*^9}, {3.96500787990954*^9, 
+   3.9650078805274897`*^9}, {3.9650140579360113`*^9, 3.965014058061059*^9}, {
+   3.966224745280455*^9, 3.9662247513351183`*^9}, {3.966227334413771*^9, 
+   3.9662273477445593`*^9}, {3.966227738540265*^9, 3.966227738922217*^9}, {
+   3.966228654139779*^9, 3.966228658247954*^9}, {3.966316417300311*^9, 
+   3.9663164174199295`*^9}, {3.9663164718975735`*^9, 
+   3.9663164721317244`*^9}, {3.9663165477810183`*^9, 
+   3.9663165479241796`*^9}, {3.967098901223135*^9, 3.9670989014389305`*^9}, {
+   3.9671611059941254`*^9, 3.9671611318294654`*^9}, {3.967173815022199*^9, 
+   3.9671738189349637`*^9}, {3.967350560375022*^9, 3.9673505626067877`*^9}, 
+   3.967354207376016*^9, {3.967356397131562*^9, 3.9673564007398844`*^9}, {
+   3.9676098702997236`*^9, 3.9676098705028343`*^9}, 3.967611522262393*^9, {
+   3.9676135039176455`*^9, 3.967613505430261*^9}, {3.9676140539416776`*^9, 
+   3.9676140544532914`*^9}, {3.9676142771380787`*^9, 
+   3.9676142775615387`*^9}, {3.9676154341139536`*^9, 
+   3.9676154345999937`*^9}, {3.9680331530225053`*^9, 3.9680331558061357`*^9}, 
+   3.968033273365791*^9, {3.9680333699134293`*^9, 3.968033379926713*^9}, {
+   3.968037190348835*^9, 3.968037191068437*^9}, 3.9680372679662113`*^9, 
+   3.9680373515575843`*^9, {3.9680375693330884`*^9, 3.9680375735569468`*^9}, {
+   3.9680385252851562`*^9, 3.9680385306078873`*^9}, {3.9680390274822626`*^9, 
+   3.9680390323376637`*^9}, 3.9680391448265514`*^9, {3.9681173217207584`*^9, 
+   3.968117331625457*^9}, {3.968212481081252*^9, 3.9682124816526504`*^9}, {
+   3.968212652512617*^9, 3.9682126528452992`*^9}, {3.968224337872529*^9, 
+   3.9682243380449553`*^9}, {3.968224713605936*^9, 3.968224714814004*^9}, {
+   4.001742926839202*^9, 4.001742958849206*^9}, {4.0017440724537106`*^9, 
+   4.001744133695816*^9}, 4.0017520415673513`*^9, {4.0020777966249104`*^9, 
+   4.002077797627614*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"log", "-", 
+    RowBox[{"likelihood", " ", "function"}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"S", "=", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"x", "-", "mu"}], ")"}], "^", "2"}], "/", 
+     RowBox[{"(", 
+      RowBox[{"2", "*", 
+       RowBox[{"sigma", "^", "2"}]}], ")"}]}]}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.946872038680627*^9, 3.9468720545128074`*^9}, 
+   3.954830521255613*^9, 3.9594854963377886`*^9, 3.9594876830375957`*^9, 
+   3.959490607475479*^9, 4.001744209527111*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"listx", ":", " ", 
+     RowBox[{
+     "list", " ", "for", " ", "storing", " ", "the", " ", "calculated", " ", 
+      "state"}]}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"listr", ":", " ", 
+      RowBox[{
+      "list", " ", "for", " ", "storing", " ", "the", " ", "classification", 
+       " ", "of", " ", "state"}]}], ";", " ", 
+     RowBox[{"r", "=", 
+      RowBox[{"1", ":", 
+       RowBox[{"Deterministic", " ", "Accept"}]}]}]}], ",", " ", 
+    RowBox[{"r", "=", 
+     RowBox[{
+      RowBox[{"-", "1"}], ":", 
+      RowBox[{"Probabilistic", " ", "Accept"}]}]}], ",", " ", 
+    RowBox[{"r", "=", 
+     RowBox[{"0", ":", " ", 
+      RowBox[{"Probabilistic", " ", "Reject"}]}]}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"listDeltax", ":", " ", 
+     RowBox[{
+     "list", " ", "for", " ", "storing", " ", "the", " ", "random", " ", 
+      "variable", " ", "of", " ", "proposal"}]}]}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"listx", "=", 
+    RowBox[{"{", "x0", "}"}]}], ";", 
+   RowBox[{"listr", "=", 
+    RowBox[{"{", "}"}]}], ";", 
+   RowBox[{"listDeltax", "=", 
+    RowBox[{"{", "}"}]}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.9639697027204723`*^9, 3.963969744618322*^9}, {
+  3.967099008333934*^9, 3.9670990134296675`*^9}, {3.968033336982868*^9, 
+  3.9680333453668394`*^9}, {4.0017442590315013`*^9, 4.001744307942091*^9}, {
+  4.001744593806101*^9, 4.0017447260039425`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Metropolis", " ", "algorithm"}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Do", "[", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{
+     "generating", " ", "random", " ", "variable", " ", "for", " ", 
+      "proposal"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"Deltax", "=", 
+       RowBox[{"RandomReal", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"-", "c"}], ",", "c"}], "}"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"listDeltax", ",", "Deltax"}], "]"}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"proposal", " ", "of", " ", "state"}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"X", "=", 
+       RowBox[{
+        RowBox[{"listx", "[", 
+         RowBox[{"[", "i", "]"}], "]"}], "+", "Deltax"}]}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{
+        RowBox[{"S1", ":", 
+         RowBox[{
+          RowBox[{"current", " ", "log"}], "-", 
+          RowBox[{"likelihood", " ", "function"}]}]}], ",", 
+        RowBox[{"S2", ":", 
+         RowBox[{
+          RowBox[{"proposal", " ", "log"}], "-", 
+          RowBox[{"likelihood", " ", "function"}]}]}]}], "*)"}], 
+      "\[IndentingNewLine]", 
+      RowBox[{"S1", "=", 
+       RowBox[{"S", "/.", 
+        RowBox[{"x", "\[Rule]", 
+         RowBox[{"listx", "[", 
+          RowBox[{"[", "i", "]"}], "]"}]}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"S2", "=", 
+       RowBox[{"S", "/.", 
+        RowBox[{"x", "\[Rule]", "X"}]}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"dS", "=", 
+       RowBox[{"Exp", "[", 
+        RowBox[{"S1", "-", "S2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"generating", " ", "uniform", " ", "random", " ", 
+        RowBox[{"variable", " ", "[", 
+         RowBox[{"0", ",", "1"}], "]"}]}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"r", "=", 
+       RowBox[{"RandomReal", "[", "]"}]}], ";", "\[IndentingNewLine]", 
+      "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Metoropolis", " ", "test"}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"dS", ">", "1"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listx", ",", "X"}], "]"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"r", "<", "dS", "<", "1"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listx", ",", "X"}], "]"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"dS", "<", "r"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listx", ",", 
+          RowBox[{"listx", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"dS", ">", "1"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listr", ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "1"}], "}"}]}], "]"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"r", "<", "dS", "<", "1"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listr", ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", 
+            RowBox[{"-", "1"}]}], "}"}]}], "]"}]}], "]"}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{"dS", "<", "r"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listr", ",", 
+          RowBox[{"{", 
+           RowBox[{"i", ",", "0"}], "}"}]}], "]"}]}], "]"}]}], 
+     "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}], ";"}]}]], "Input",
+ CellChangeTimes->{{3.9279618819444733`*^9, 3.9279618865034714`*^9}, {
+   3.9279619638875217`*^9, 3.927961965640525*^9}, {3.927962350529626*^9, 
+   3.9279623510785227`*^9}, {3.9279623897175674`*^9, 
+   3.9279623988165274`*^9}, {3.9279624449185643`*^9, 
+   3.9279625474660587`*^9}, {3.927962583989107*^9, 3.927962767024102*^9}, {
+   3.9279628902880716`*^9, 3.927962895002117*^9}, 3.928113591781313*^9, {
+   3.928565699751604*^9, 3.928565707709648*^9}, {3.9285657803816023`*^9, 
+   3.9285657980686464`*^9}, {3.928620500129592*^9, 3.9286205089041023`*^9}, {
+   3.929937351324787*^9, 3.929937351693489*^9}, {3.929937424927126*^9, 
+   3.929937445448573*^9}, {3.929938632099325*^9, 3.9299386350271664`*^9}, {
+   3.929943920789303*^9, 3.9299439420011654`*^9}, {3.929943991756093*^9, 
+   3.9299440035953655`*^9}, {3.929944153779729*^9, 3.929944154089693*^9}, {
+   3.932104903392666*^9, 3.9321049290486116`*^9}, {3.932105046022653*^9, 
+   3.932105054190667*^9}, {3.932105085302391*^9, 3.932105186687743*^9}, {
+   3.9321867266440353`*^9, 3.932186728326251*^9}, {3.9321867830089808`*^9, 
+   3.9321868083030977`*^9}, {3.932187189391959*^9, 3.932187215953008*^9}, {
+   3.93218726944279*^9, 3.93218729045162*^9}, {3.9321875340911317`*^9, 
+   3.932187566568935*^9}, {3.9321876164986324`*^9, 3.9321876199149857`*^9}, {
+   3.9327903537303925`*^9, 3.9327903675968976`*^9}, {3.933226071256405*^9, 
+   3.933226083376395*^9}, {3.963969708874445*^9, 3.96396975007458*^9}, {
+   3.966227404349118*^9, 3.966227405262884*^9}, {3.9670991048209023`*^9, 
+   3.967099116855194*^9}, {3.9676142717152696`*^9, 3.967614272027731*^9}, {
+   4.0017443156249313`*^9, 4.0017443447951717`*^9}, {4.001744415142971*^9, 
+   4.001744571056696*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"listx", "=", 
+   RowBox[{"SetPrecision", "[", 
+    RowBox[{"listx", ",", "30"}], "]"}]}], ";"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"listMean", ":", 
+     RowBox[{"for", " ", "storing", " ", "the", " ", "mean", " ", "value"}]}],
+     ",", 
+    RowBox[{"listVar", ":", " ", 
+     RowBox[{"for", " ", "storing", " ", "the", " ", "variance"}]}]}], "*)"}],
+   "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"listMean", "=", 
+     RowBox[{"{", 
+      RowBox[{"listx", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"meanx", "=", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "/", 
+           RowBox[{"(", 
+            RowBox[{"i", "+", "1"}], ")"}]}], ")"}], "*", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"listx", "[", 
+            RowBox[{"[", 
+             RowBox[{"i", "+", "1"}], "]"}], "]"}], "+", 
+           RowBox[{"i", "*", 
+            RowBox[{"listMean", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}]}], ")"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"listMean", ",", "meanx"}], "]"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listVar", "=", 
+     RowBox[{"{", "0", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"varx", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"i", "/", 
+            RowBox[{"(", 
+             RowBox[{"i", "+", "1"}], ")"}]}], ")"}], "*", 
+          RowBox[{"listVar", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}], "+", 
+         RowBox[{"i", "*", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"listMean", "[", 
+              RowBox[{"[", 
+               RowBox[{"i", "+", "1"}], "]"}], "]"}], "-", 
+             RowBox[{"listMean", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}], ")"}], "^", "2"}]}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"listVar", ",", "varx"}], "]"}]}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}], ";"}]}]}]], "Input",
+ CellChangeTimes->{
+  3.9680332565594883`*^9, {3.9680333237454042`*^9, 3.968033323871746*^9}, 
+   3.968033355704702*^9, {3.968033418850321*^9, 3.968033422247653*^9}, {
+   3.9681176234009256`*^9, 3.968117627778606*^9}, {4.0017447313028693`*^9, 
+   4.0017447473623304`*^9}, 4.002274914015467*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+   "calcuration", " ", "of", " ", "geometric", " ", "parameter", " ", 
+    "alphak", " ", "using", " ", "Equation", " ", 
+    RowBox[{"(", "35", ")"}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"M1", ",", "M2", ",", "M3", ",", 
+    RowBox[{"M", ":", 
+     RowBox[{
+      RowBox[{"Equations", " ", 
+       RowBox[{"(", "36", ")"}]}], "-", 
+      RowBox[{"(", "39", ")"}]}]}], ",", "N1", ",", "N2", ",", "N3", ",", 
+    RowBox[{"N", ":", 
+     RowBox[{
+      RowBox[{"Equations", " ", 
+       RowBox[{"(", "40", ")"}]}], "-", 
+      RowBox[{"(", "43", ")"}]}]}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"M1", "=", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"k", "+", "1"}], ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{"muk1", "-", "muk"}], ")"}], "*", "wk1"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"M2", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"muk1", "-", "muk"}], ")"}], "^", "2"}], "*", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"k", "+", "2"}], ")"}], "*", "wk"}], "+", 
+         RowBox[{"2", "*", "k", "*", 
+          RowBox[{"(", 
+           RowBox[{"k", "+", "1"}], ")"}], "*", "wk1"}]}], ")"}]}], "-", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"k", "+", "2"}], ")"}], "*", 
+       RowBox[{"(", 
+        RowBox[{"wk1", "-", "wk"}], ")"}], "*", "wk1"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"M3", "=", 
+     RowBox[{"k", "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"muk1", "-", "muk"}], ")"}], "^", "3"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"k", "+", "2"}], ")"}], "*", "wk"}], "-", 
+        RowBox[{"2", "*", 
+         RowBox[{"(", 
+          RowBox[{"k", "+", "1"}], ")"}], "*", "wk1"}]}], ")"}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"N1", "=", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"(", 
+        RowBox[{"k", "+", "1"}], ")"}]}], "*", 
+      RowBox[{"(", 
+       RowBox[{"muk1", "-", "muk"}], ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{"wk1", "-", "wk"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"N2", "=", 
+     RowBox[{
+      RowBox[{
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"muk1", "-", "muk"}], ")"}], "^", "2"}], "*", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"2", "*", 
+             RowBox[{"k", "^", "2"}]}], "+", 
+            RowBox[{"3", "*", "k"}], "+", "2"}], ")"}], "*", "wk"}], "-", 
+         RowBox[{"2", "*", "k", "*", 
+          RowBox[{"(", 
+           RowBox[{"k", "+", "1"}], ")"}], "*", "wk1"}]}], ")"}]}], "+", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"k", "+", "2"}], ")"}], "*", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"wk1", "-", "wk"}], ")"}], "^", "2"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"N3", "=", 
+     RowBox[{"k", "*", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{"muk1", "-", "muk"}], ")"}], "^", "3"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"2", "*", 
+         RowBox[{"(", 
+          RowBox[{"k", "+", "1"}], ")"}], "*", "wk1"}], "-", 
+        RowBox[{"k", "*", "wk"}]}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"alphakM", ":", 
+      RowBox[{"Numerator", " ", "of", " ", "Equation", " ", 
+       RowBox[{"(", "35", ")"}]}]}], ",", 
+     RowBox[{"alphakN", ":", 
+      RowBox[{"Denominator", " ", "of", " ", "Equation", " ", 
+       RowBox[{"(", "35", ")"}]}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"alphakM", "=", 
+     RowBox[{
+      RowBox[{"M1", "*", 
+       RowBox[{"Deltaxk2", "^", "2"}]}], "+", 
+      RowBox[{"M2", "*", "Deltaxk2"}], "+", "M3"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"alphakN", "=", 
+     RowBox[{
+      RowBox[{"N1", "*", 
+       RowBox[{"Deltaxk2", "^", "2"}]}], "+", 
+      RowBox[{"N2", "*", "Deltaxk2"}], "+", "N3"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"alphak", "=", 
+     RowBox[{"alphakM", "/", "alphakN"}]}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.967609941009348*^9, 3.9676102128768005`*^9}, {
+  3.9676102480953045`*^9, 3.967610248878115*^9}, {3.967610343822653*^9, 
+  3.9676103533450108`*^9}, {4.001744786329075*^9, 4.0017449754626617`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"If", " ", "the", " ", "proposal", " ", "is", " ", "rejected"}], 
+    ",", 
+    RowBox[{"calculate", " ", 
+     RowBox[{"$", "\\", "alpha_k$"}], " ", "in", " ", "equation", " ", 
+     RowBox[{"(", "35", ")"}], " ", "by", " ", "setting", " ", "the", " ", 
+     "random", " ", "variable", " ", 
+     RowBox[{"$", "\\", "Delta"}], " ", "x$", " ", "to", " ", 
+     RowBox[{"zero", ".", "\[IndentingNewLine]", "If"}], " ", "the", " ", 
+     "proposal", " ", "is", " ", "accepted"}], ",", 
+    RowBox[{"calculate", " ", 
+     RowBox[{"$", "\\", "alpha_k$"}], " ", "in", " ", "equation", " ", 
+     RowBox[{"(", "35", ")"}], " ", "using", " ", "the", " ", "random", " ", 
+     "variable", " ", 
+     RowBox[{"$", "\\", "Delta"}], " ", 
+     RowBox[{"x$", ".", "\[IndentingNewLine]", 
+      RowBox[{"listAlphak", ":", " ", 
+       RowBox[{
+       "list", " ", "for", " ", "storing", " ", "calculated", " ", "values", 
+        " ", "of", " ", 
+        RowBox[{"$", "\\", "alphak$"}]}]}]}]}]}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"listAlphak", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"listr", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", "+", "1"}], "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", "0"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listAlphak", ",", 
+          RowBox[{"alphak", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"k", "\[Rule]", "i"}], ",", 
+             RowBox[{"Deltaxk2", "\[Rule]", "0"}], ",", 
+             RowBox[{"muk1", "\[Rule]", 
+              RowBox[{"listMean", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ",", 
+             RowBox[{"muk", "\[Rule]", 
+              RowBox[{"listMean", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], ",", 
+             RowBox[{"wk1", "\[Rule]", 
+              RowBox[{"listVar", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ",", 
+             RowBox[{"wk", "\[Rule]", 
+              RowBox[{"listVar", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}]}]}], "]"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listAlphak", ",", 
+          RowBox[{"alphak", "/.", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"k", "\[Rule]", "i"}], ",", 
+             RowBox[{"Deltaxk2", "\[Rule]", 
+              RowBox[{"listDeltax", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ",", 
+             RowBox[{"muk1", "\[Rule]", 
+              RowBox[{"listMean", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ",", 
+             RowBox[{"muk", "\[Rule]", 
+              RowBox[{"listMean", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}], ",", 
+             RowBox[{"wk1", "\[Rule]", 
+              RowBox[{"listVar", "[", 
+               RowBox[{"[", 
+                RowBox[{"i", "+", "1"}], "]"}], "]"}]}], ",", 
+             RowBox[{"wk", "\[Rule]", 
+              RowBox[{"listVar", "[", 
+               RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}]}]}], "]"}]}], "]"}], 
+      ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"n", "-", "1"}]}], "}"}]}], "]"}], ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.9676106647643433`*^9, 3.967610802022737*^9}, 
+   3.9676110022164106`*^9, {3.9676111537118597`*^9, 3.967611154185279*^9}, {
+   3.967613175599367*^9, 3.9676131883470907`*^9}, {3.967615019744066*^9, 
+   3.967615019965771*^9}, {3.9682223588349943`*^9, 3.9682223589946146`*^9}, {
+   3.9682224119155807`*^9, 3.968222412149992*^9}, {4.001744979281707*^9, 
+   4.0017450204402857`*^9}, {4.001745458631831*^9, 4.001745481393966*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"listAlphak2", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"i", ",", 
+         RowBox[{"listAlphak", "[", 
+          RowBox[{"[", "i", "]"}], "]"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", 
+         RowBox[{"n", "-", "2"}]}], "}"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"listAlphak2", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", 
+         RowBox[{"-", "1"}]}], ",", 
+        RowBox[{"listAlphak3", "=", 
+         RowBox[{"ReplacePart", "[", 
+          RowBox[{"listAlphak2", ",", 
+           RowBox[{"i", "\[Rule]", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "\"\<\>\""}], "}"}]}]}], "]"}]}], ",", 
+        RowBox[{"Break", "[", "]"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", "10"}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Table", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"listalphak", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], "[", 
+           RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", 
+          RowBox[{"-", "1"}]}], ",", 
+         RowBox[{"listalphak5", "=", 
+          RowBox[{"ReplacePart", "[", 
+           RowBox[{"listalphak", ",", 
+            RowBox[{"i", "\[Rule]", 
+             RowBox[{"{", 
+              RowBox[{"i", ",", "\"\<\>\""}], "}"}]}]}], "]"}]}]}], "]"}], 
+       ",", 
+       RowBox[{"{", 
+        RowBox[{"i", ",", "1", ",", "10"}], "}"}]}], "]"}], ";"}], 
+    "*)"}]}]}]], "Input",
+ CellChangeTimes->{{3.967610863551903*^9, 3.967610867870261*^9}, {
+   3.9676109117071147`*^9, 3.9676109571778736`*^9}, 3.967611008143523*^9, {
+   3.9676111717129345`*^9, 3.967611178831761*^9}, {3.9676116043034096`*^9, 
+   3.9676116046151795`*^9}, {3.9676131976860256`*^9, 
+   3.9676132303007746`*^9}, {3.9676134650369873`*^9, 
+   3.9676134709569483`*^9}, {3.967613737341411*^9, 3.967613770558762*^9}, {
+   3.968223030490636*^9, 3.9682230306312237`*^9}, {3.9682231540047383`*^9, 
+   3.9682231753622227`*^9}, {4.0017454975651045`*^9, 4.0017455021483407`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Using", " ", "`listr`"}], "\[LongDash]", 
+    RowBox[{
+    "which", " ", "stores", " ", "the", " ", "types", " ", "of", " ", "state",
+      " ", "transitions"}], "\[LongDash]", 
+    RowBox[{"classify", " ", "the", " ", "calculated", " ", 
+     RowBox[{"$", "\\", "alpha_k$"}], " ", "into", " ", "one", " ", "of", " ",
+      "the", " ", "following", " ", 
+     RowBox[{"categories", ":", 
+      RowBox[{
+      "\"\<Deterministic Acceptance,\>\"", " ", 
+       "\"\<Probabilistic Acceptance,\>\"", " ", "or", " ", 
+       "\"\<Probabilistic Rejection\>\""}]}]}]}], "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"listAlphaUp", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"listr", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", "+", "1"}], "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", "1"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listAlphaUp", ",", 
+          RowBox[{"listAlphak3", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"Length", "[", "listAlphak3", "]"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listAlphaDwn", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"listr", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", "+", "1"}], "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", 
+         RowBox[{"-", "1"}]}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listAlphaDwn", ",", 
+          RowBox[{"listAlphak3", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"Length", "[", "listAlphak3", "]"}]}], "}"}]}], "]"}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"listAlphaSty", "=", 
+     RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Do", "[", 
+     RowBox[{
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"listr", "[", 
+           RowBox[{"[", 
+            RowBox[{"i", "+", "1"}], "]"}], "]"}], "[", 
+          RowBox[{"[", "2", "]"}], "]"}], "\[Equal]", "0"}], ",", 
+        RowBox[{"AppendTo", "[", 
+         RowBox[{"listAlphaSty", ",", 
+          RowBox[{"listAlphak3", "[", 
+           RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "1", ",", 
+        RowBox[{"Length", "[", "listAlphak3", "]"}]}], "}"}]}], "]"}], 
+    ";"}]}]}]], "Input",
+ CellChangeTimes->{{3.967611193890479*^9, 3.967611214616026*^9}, {
+  3.9676134862105904`*^9, 3.9676134960927753`*^9}, {3.9676153126218743`*^9, 
+  3.9676153219324527`*^9}, {3.9682235250026884`*^9, 3.9682235279335623`*^9}, {
+  3.968223563983672*^9, 3.968223566382984*^9}, {4.0017455379884367`*^9, 
+  4.0017456960695925`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{"\"\<listx_Numerical_example_case_B.csv\>\"", ",", "listx"}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{"\"\<listMean_Numerical_example_case_B.csv\>\"", ",", "listMean"}],
+    "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{"\"\<listVar_Numerical_example_case_B.csv\>\"", ",", "listVar"}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{"\"\<listr_Numerical_example_case_B.csv\>\"", ",", "listr"}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+   "\"\<listDeltax_Numerical_example_case_B.csv\>\"", ",", "listDeltax"}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+   "\"\<listAlphak_Numerical_example_case_B.csv\>\"", ",", "listAlphak"}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"Export", "[", 
+   RowBox[{
+   "\"\<listAlphak3_Numerical_example_case_B.csv\>\"", ",", "listAlphak3"}], 
+   "]"}], ";"}]}], "Input",
+ CellChangeTimes->{{3.964057292397771*^9, 3.96405729950816*^9}, {
+  3.964057613368911*^9, 3.964057618666745*^9}, {3.9640582481944523`*^9, 
+  3.9640582715464783`*^9}, {3.9641515451253443`*^9, 3.964151554629848*^9}, {
+  3.9650027341365986`*^9, 3.965002775337101*^9}, {3.965002899910288*^9, 
+  3.9650029088763576`*^9}, {3.9650029635421467`*^9, 3.965002969939596*^9}, {
+  3.965008119340335*^9, 3.9650081340669994`*^9}, {3.9650140076334405`*^9, 
+  3.965014015019882*^9}, {3.9672693930150003`*^9, 3.967269408900941*^9}, {
+  3.968212582911597*^9, 3.968212605006088*^9}, {3.9682244098914833`*^9, 
+  3.9682244422401624`*^9}, {3.9682247218374605`*^9, 3.9682247289872136`*^9}, {
+  3.9717602408464527`*^9, 3.971760274084975*^9}, {4.0017491382847757`*^9, 
+  4.001749163291198*^9}, {4.0017519917465243`*^9, 4.0017520170176525`*^9}}]
+},
+WindowSize->{1904, 997},
+WindowMargins->{{-8, Automatic}, {Automatic, 0}},
+Magnification:>1.2 Inherited,
+FrontEndVersion->"10.0 for Microsoft Windows (64-bit) (2014\:5e7412\:67084\
+\:65e5)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 73, 1, 36, "Input"],
+Cell[634, 23, 5753, 89, 152, "Input"],
+Cell[6390, 114, 583, 16, 60, "Input"],
+Cell[6976, 132, 1485, 39, 152, "Input"],
+Cell[8464, 173, 5683, 131, 635, "Input"],
+Cell[14150, 306, 141, 4, 36, "Input"],
+Cell[14294, 312, 2640, 76, 175, "Input"],
+Cell[16937, 390, 4578, 139, 313, "Input"],
+Cell[21518, 531, 4087, 96, 198, "Input"],
+Cell[25608, 629, 2505, 66, 152, "Input"],
+Cell[28116, 697, 3274, 89, 198, "Input"],
+Cell[31393, 788, 1931, 42, 175, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)
